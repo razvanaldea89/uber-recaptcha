@@ -329,7 +329,7 @@ class NCR_options_panel extends NCR_render_engine {
 		foreach ( $input as $key => $value ) {
 
 			// Check to see if the current option has a value. If so, process it.
-			if ( isset( $input[ $key ] ) && !is_array( $input )  ) {
+			if ( isset( $input[ $key ] ) && !is_array( $value )  ) {
 
 				// Strip all HTML and PHP tags and properly handle quoted strings
 				$output[ $key ] = strip_tags( stripslashes( $input[ $key ] ) );
