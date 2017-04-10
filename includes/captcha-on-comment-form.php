@@ -29,18 +29,25 @@ function construct_ncr_captcha_on_comment_form() {
 	$plugin_option = get_option( 'uncr_settings' );
 
 	if ( ! empty( $plugin_option['uncr_comment_form'] ) && $plugin_option['uncr_comment_form'] == 'uncr_comment_form' ) { // check if captcha form on comment form is enabled
-
 		if ( ! is_user_logged_in() ) { // check if user is logged in or not; we shouldn't be loading the class if the user is logged in (works on the principle that only users with privileges will be logged in, such as : admins)
 
 			// instantiate the class & load everything else
-			return new ncr_captcha_on_comment_form();
-		}
+			return new NCR_captcha_on_comment_form();
+		} else if ( isset( $plugin_option['show_logged_users'] ) && !empty( $plugin_option['show_logged_users'] ) && is_user_logged_in() ) {
+			
+			$current_user = wp_get_current_user();
+			$current_user_roles = $current_user->roles;
+			if ( !empty( array_intersect( $plugin_option['show_logged_users'], $current_user_roles ) ) ) {
+				return new NCR_captcha_on_comment_form();
+			}
+
+		} 
 	}
 }
 
 add_action( 'init', 'construct_ncr_captcha_on_comment_form' );
 
-class ncr_captcha_on_comment_form extends ncr_base_class {
+class NCR_captcha_on_comment_form extends NCR_base_class {
 
 
 	/**
@@ -66,7 +73,9 @@ class ncr_captcha_on_comment_form extends ncr_base_class {
 
 
 		// adds captcha above the submit button
-		add_filter( 'comment_form_after_fields', array( $this, 'uncr_display_captcha_comment_form' ), 10, 2 );
+		add_filter( 'comment_form_submit_field', array( $this, 'uncr_display_captcha_comment_form' ), 10, 2 );
+
+		
 
 		// authenticate the captcha answer
 		add_filter( 'preprocess_comment', array( $this, 'uncr_validate_captcha_comment_field' ), 10, 2 );
@@ -85,15 +94,9 @@ class ncr_captcha_on_comment_form extends ncr_base_class {
 	 *
 	 * @since   1.0.0
 	 */
-	public function uncr_display_captcha_comment_form( $default ) {
+	public function uncr_display_captcha_comment_form( $submit_field ) {
 
-
-		//ob_start();
-		echo '<div class="g-recaptcha" data-sitekey="' . $this->recaptcha_public_key . '" data-theme="' . $this->data_theme . '" data-type="' . $this->data_type . '" ></div>';
-		//$default['comment_notes_after'] .= ob_get_contents();
-		//ob_end_clean();
-
-		//return $default;
+		return '<div class="uncr-g-recaptcha"></div>'.$submit_field;
 
 	}
 

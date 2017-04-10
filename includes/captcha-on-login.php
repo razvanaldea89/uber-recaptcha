@@ -26,14 +26,14 @@ function construct_ncr_captcha_on_login_form() {
 	if ( ! empty( $plugin_option['uncr_login_form'] ) && $plugin_option['uncr_login_form'] == 'uncr_login_form' ) {
 
 		// instantiate the class & load everything else
-		return new ncr_captcha_on_login();
+		return new NCR_captcha_on_login();
 	}
 
 }
 
 add_action( 'init', 'construct_ncr_captcha_on_login_form' );
 
-class ncr_captcha_on_login extends ncr_base_class {
+class NCR_captcha_on_login extends NCR_base_class {
 
 
 	/**

@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Uber reCaptcha
  * Description:       Adds Googles' reCaptcha to WordPress forms.
- * Version:           1.0.6
+ * Version:           1.1.0
  * Author:            Macho Themes
  * Author URI:        https://www.machothemes.com/
  * License:           GPL-2.0+
@@ -21,7 +21,7 @@ if ( ! defined( 'WPINC' ) ) {
 // Constants
 define( 'UNCR__PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'UNCR__PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
-define( 'UNCR__PLUGIN_VERSION', '1.0.6' );
+define( 'UNCR__PLUGIN_VERSION', '1.1.0' );
 
 /**
  * The class responsible for orchestrating the core plugin.
@@ -33,7 +33,7 @@ require_once plugin_dir_path( __FILE__ ) . 'includes/plugin-main-class.php';
 /**
  * The class responsible for adding the admin notices when the plugin is first activated.
  */
-require_once plugin_dir_path( __FILE__ ) . 'helpers/admin.notices.class.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/helpers/admin.notices.class.php';
 
 /**
  * The class responsible for generating and adding the required API mark-up on the WordPress login form.
@@ -69,7 +69,7 @@ require_once plugin_dir_path( __FILE__ ) . 'includes/captcha-on-recover-password
  * 4.   select
  *
  */
-require_once plugin_dir_path( __FILE__ ) . 'helpers/field.render.class.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/helpers/field.render.class.php';
 
 /**
  * The class responsible for registering all the actions & generating the plugin admin panel
@@ -81,13 +81,13 @@ require_once plugin_dir_path( __FILE__ ) . 'admin/settings.php';
  * The code that runs during plugin activation.
  * This action is documented in base-class.php, static method: uncr_plugin_install
  */
-register_activation_hook( __FILE__, array( 'ncr_base_class', 'uncr_plugin_install' ) );
+register_activation_hook( __FILE__, array( 'NCR_base_class', 'uncr_plugin_install' ) );
 
 /**
  * The code that runs during plugin deactivation.
  * This action is documented in base-class.php, static method: uncr_plugin_uninstall
  */
-register_deactivation_hook( __FILE__, array( 'ncr_base_class', 'uncr_plugin_uninstall' ) );
+register_deactivation_hook( __FILE__, array( 'NCR_base_class', 'uncr_plugin_uninstall' ) );
 
 /**
  * Begins execution of the plugin.
@@ -97,7 +97,7 @@ register_deactivation_hook( __FILE__, array( 'ncr_base_class', 'uncr_plugin_unin
  */
 function uber_recaptcha_run() {
 
-	new ncr_base_class();
+	new NCR_base_class();
 }
 
 uber_recaptcha_run();

@@ -10,7 +10,7 @@
  * @package    Uber_Recaptcha
  * @author     Cristian Raiber <hi@cristian.raiber.me>
  */
-class ncr_base_class {
+class NCR_base_class {
 
 	/**
 	 * The site key to be used with the reCaptcha API.
@@ -93,6 +93,7 @@ class ncr_base_class {
 		self::$default_settings = array(
 			'public_key_text'         => '',
 			'private_key_text'        => '',
+			'captcha_key_type'        => 'normal',
 			'captcha_theme_radio'     => 'light',
 			'captcha_type_radio'      => 'image',
 			'captcha_language_select' => '',
@@ -100,6 +101,8 @@ class ncr_base_class {
 			'uncr_register_form'      => '',
 			'uncr_comment_form'       => '',
 			'uncr_lost_pwd'           => '',
+			'show_logged_users'		  => array(),
+			'disable_submit_button'	  => 'no'
 		);
 
 		// reCaptcha secret key
@@ -107,6 +110,9 @@ class ncr_base_class {
 
 		// reCaptcha site key
 		$this->recaptcha_public_key = !empty( $this->plugin_settings['public_key_text'] ) ? $this->plugin_settings['public_key_text'] : '';
+
+		// reCaptcha key type ( invisible/normal ); normal by default
+		$this->key_type = !empty( $this->plugin_settings['captcha_key_type'] ) ? $this->plugin_settings['captcha_key_type'] : '';
 
 		// reCaptcha theme (light/dark); light theme is set by default
 		$this->data_theme = !empty( $this->plugin_settings['captcha_theme_radio'] ) ? $this->plugin_settings['captcha_theme_radio'] : '';
@@ -140,20 +146,30 @@ class ncr_base_class {
 		if ( ! wp_script_is( 'recaptcha', 'register' ) ) { // if a script with the same handle hasn't been already registered, register ours
 
 			if ( ! empty( $this->captcha_language ) ) {
-				wp_register_script( 'recaptchaAPI', '//www.google.com/recaptcha/api.js?render=explicit&hl=' . $this->captcha_language, null, '2.0', false );
-				wp_register_script( 'recaptchaGenerate', plugins_url( 'js/recaptcha.js', dirname( __FILE__ ) ), array(
+				wp_register_script( 'recaptchaAPI', '//www.google.com/recaptcha/api.js?onload=renderUNCRReCaptcha&render=explicit&hl=' . $this->captcha_language, null, '2.1', false );
+				wp_register_script( 'recaptchaGenerate', plugins_url( 'assets/js/recaptcha.js', dirname( __FILE__ ) ), array(
 					'recaptchaAPI',
 					'jquery',
 				), '1.0', false );
 			} else {
-				wp_register_script( 'recaptchaAPI', '//www.google.com/recaptcha/api.js?render=explicit', null, '2.0', false );
-				wp_register_script( 'recaptchaGenerate', plugins_url( 'js/recaptcha.js', dirname( __FILE__ ) ), array(
+				wp_register_script( 'recaptchaAPI', '//www.google.com/recaptcha/api.js?onload=renderUNCRReCaptcha&render=explicit', null, '2.1', false );
+				wp_register_script( 'recaptchaGenerate', plugins_url( 'assets/js/recaptcha.js', dirname( __FILE__ ) ), array(
 					'recaptchaAPI',
 					'jquery',
 				), '1.0', false );
 			}
 			wp_enqueue_script( 'recaptchaAPI' );
 			wp_enqueue_script( 'recaptchaGenerate' );
+
+			$recapcha_settings = array(
+				'site_key' 		=>  $this->recaptcha_public_key,
+				'key_type' 		=>  $this->key_type,
+				'theme'			=>  $this->data_theme,
+				'type'			=>  $this->data_type,
+				'submit_button'	=>  $this->plugin_settings['disable_submit_button'],
+			);
+			wp_localize_script( 'recaptchaGenerate', 'UNCR', $recapcha_settings );
+
 		} else {
 			return new WP_Error( 'script_handle_exists', __( 'A script with the same has already been registered. Plugin conflict', 'uncr_translate' ) );
 		}
@@ -167,7 +183,7 @@ class ncr_base_class {
 	 * @since    1.0.0
 	 */
 	public function uncr_wp_css() {
-		wp_register_style( 'captcha-style', plugins_url( 'css/style.css', dirname( __FILE__ ) ) );
+		wp_register_style( 'captcha-style', plugins_url( 'assets/css/style.css', dirname( __FILE__ ) ) );
 		wp_enqueue_style( 'captcha-style' );
 	}
 
@@ -177,7 +193,7 @@ class ncr_base_class {
 	 * @since    1.0.0
 	 */
 	public function uncr_display_captcha() {
-		echo '<div class="g-recaptcha" data-sitekey="' . $this->recaptcha_public_key . '" data-theme="' . $this->data_theme . '" data-type="' . $this->data_type . '" ></div>';
+		echo '<div class="uncr-g-recaptcha"></div>';
 	}
 
 	/**
@@ -206,7 +222,6 @@ class ncr_base_class {
 
 		// get the request response body
 		$response_body = wp_remote_retrieve_body( $request );
-
 		return $response_body;
 
 	}

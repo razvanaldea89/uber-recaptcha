@@ -9,19 +9,19 @@
 /*
 *   add some margin (especially useful for the generated captcha code on the comment form) :)
 */
-.g-recaptcha  {
+.uncr-g-recaptcha  {
     margin: 15px 0;
 }
 
-	.g-recaptcha div { 
-		margin: 0 auto;
-	 }
+.uncr-g-recaptcha div { 
+	margin: 0 auto;
+}
 
-	 /* different styling on the comment form */
-	 #commentform .g-recaptcha {
-	 	clear: both;
- 	    margin: 0;
-    	padding: 15px 0;
-	 }
+ /* different styling on the comment form */
+#commentform .uncr-g-recaptcha {
+ 	clear: both;
+	    margin: 0;
+	padding: 15px 0;
+}
 
-	 	#commentform .g-recaptcha div {margin: 0;}
+#commentform .uncr-g-recaptcha div {margin: 0;}

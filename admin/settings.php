@@ -9,7 +9,7 @@
  * @subpackage Uber_Recaptcha/admin/settings
  * @author     Cristian Raiber <hi@cristian.raiber.me>
  */
-class ncr_options_panel extends ncr_render_engine {
+class NCR_options_panel extends NCR_render_engine {
 
 	/**
 	 * Initialize the class and set its properties.
@@ -69,6 +69,15 @@ class ncr_options_panel extends ncr_render_engine {
 				'type'  => 'text',
 				'id'    => 'private_key_text' // id is generated using name + '_' + type
 			),
+			'captcha-key-type' => array(
+				'title'   => __( 'Captcha key type', 'uncr_translate' ),
+				'type'    => 'radio',
+				'id'      => 'captcha_key_type',
+				'options' => array( //keys in the array should always be prefixed
+	                    'invisible' => __( 'Invisible reCAPTCHA', 'uncr-translate' ),
+	                    'normal' => __( 'reCAPTCHA V2', 'uncr-translate' ),
+				),
+			),
 			'captcha-theme'    => array(
 				'title'   => __( 'Select reCaptcha skin', 'uncr_translate' ),
 				'type'    => 'radio',
@@ -87,66 +96,112 @@ class ncr_options_panel extends ncr_render_engine {
 				                    'image' => __( 'Image Captcha', 'uncr-translate' ),
 				),
 			),
+			'disable-submit-button'     => array(
+				'title'   => __( 'Disable submit button ?', 'uncr_translate' ),
+				'type'    => 'radio',
+				'id'      => 'disable_submit_button',
+				'options' => array( //keys in the array should always be prefixed
+	                    'yes' => __( 'Yes', 'uncr-translate' ),
+	                    'no' => __( 'No', 'uncr-translate' ),
+				),
+			),
 			'captcha-language' => array(
 				'title'   => __( 'reCaptcha language', 'uncr_translate' ),
 				'type'    => 'select',
 				'id'      => 'captcha_language_select',
 				'options' => array(
-					__( 'Auto Detect', 'uncr_translate' )         => '',
-					__( 'English', 'uncr_translate' )             => 'en',
-					__( 'Arabic', 'uncr_translate' )              => 'ar',
-					__( 'Bulgarian', 'uncr_translate' )           => 'bg',
-					__( 'Catalan Valencian', 'uncr_translate' )   => 'ca',
-					__( 'Czech', 'uncr_translate' )               => 'cs',
-					__( 'Danish', 'uncr_translate' )              => 'da',
-					__( 'German', 'uncr_translate' )              => 'de',
-					__( 'Greek', 'uncr_translate' )               => 'el',
-					__( 'British English', 'uncr_translate' )     => 'en_gb',
-					__( 'Spanish', 'uncr_translate' )             => 'es',
-					__( 'Persian', 'uncr_translate' )             => 'fa',
-					__( 'French', 'uncr_translate' )              => 'fr',
-					__( 'Canadian French', 'uncr_translate' )     => 'fr_ca',
-					__( 'Hindi', 'uncr_translate' )               => 'hi',
-					__( 'Croatian', 'uncr_translate' )            => 'hr',
-					__( 'Hungarian', 'uncr_translate' )           => 'hu',
-					__( 'Indonesian', 'uncr_translate' )          => 'id',
-					__( 'Italian', 'uncr_translate' )             => 'it',
-					__( 'Hebrew', 'uncr_translate' )              => 'iw',
-					__( 'Jananese', 'uncr_translate' )            => 'ja',
-					__( 'Korean', 'uncr_translate' )              => 'ko',
-					__( 'Lithuanian', 'uncr_translate' )          => 'lt',
-					__( 'Latvian', 'uncr_translate' )             => 'lv',
-					__( 'Dutch', 'uncr_translate' )               => 'nl',
-					__( 'Norwegian', 'uncr_translate' )           => 'no',
-					__( 'Polish', 'uncr_translate' )              => 'pl',
-					__( 'Portuguese', 'uncr_translate' )          => 'pt',
-					__( 'Romanian', 'uncr_translate' )            => 'ro',
-					__( 'Russian', 'uncr_translate' )             => 'ru',
-					__( 'Slovak', 'uncr_translate' )              => 'sk',
-					__( 'Slovene', 'uncr_translate' )             => 'sl',
-					__( 'Serbian', 'uncr_translate' )             => 'sr',
-					__( 'Swedish', 'uncr_translate' )             => 'sv',
-					__( 'Thai', 'uncr_translate' )                => 'th',
-					__( 'Turkish', 'uncr_translate' )             => 'tr',
-					__( 'Ukrainian', 'uncr_translate' )           => 'uk',
-					__( 'Vietnamese', 'uncr_translate' )          => 'vi',
-					__( 'Simplified Chinese', 'uncr_translate' )  => 'zh_cn',
-					__( 'Traditional Chinese', 'uncr_translate' ) => 'zh_tw',
+					__( 'Auto Detect', 'uncr_translate' )         		=> '',
+					__( 'Arabic', 'uncr_translate' )         			=> 'ar',
+					__( 'Afrikaans', 'uncr_translate' )         		=> 'af',
+					__( 'Amharic', 'uncr_translate' )         			=> 'am',
+					__( 'Armenian', 'uncr_translate' )         			=> 'hy',
+					__( 'Azerbaijani', 'uncr_translate' )         		=> 'az',
+					__( 'Basque', 'uncr_translate' )         			=> 'eu',
+					__( 'Bengali', 'uncr_translate' )         			=> 'bn',
+					__( 'Bulgarian', 'uncr_translate' )         		=> 'bg',
+					__( 'Catalan', 'uncr_translate' )         			=> 'ca',
+					__( 'Chinese (Hong Kong)', 'uncr_translate' )      	=> 'zh-HK',
+					__( 'Chinese (Simplified)', 'uncr_translate' )     	=> 'zh-CN',
+					__( 'Chinese (Traditional)', 'uncr_translate' )   	=> 'zh-TW',
+					__( 'Croatian', 'uncr_translate' )         			=> 'hr',
+					__( 'Czech', 'uncr_translate' )         			=> 'cs',
+					__( 'Danish', 'uncr_translate' )         			=> 'da',
+					__( 'Dutch', 'uncr_translate' )         			=> 'nl',
+					__( 'English (UK)', 'uncr_translate' )         		=> 'en-GB',
+					__( 'English (US)', 'uncr_translate' )         		=> 'en',
+					__( 'Estonian', 'uncr_translate' )         			=> 'et',
+					__( 'Filipino', 'uncr_translate' )         			=> 'fil',
+					__( 'Finnish', 'uncr_translate' )         			=> 'fi',
+					__( 'French', 'uncr_translate' )         			=> 'fr',
+					__( 'French (Canadian)', 'uncr_translate' )         => 'fr-CA',
+					__( 'Galician', 'uncr_translate' )         			=> 'gl',
+					__( 'Georgian', 'uncr_translate' )         			=> 'ka',
+					__( 'German', 'uncr_translate' )         			=> 'de',
+					__( 'German (Austria)', 'uncr_translate' )         	=> 'de-AT',
+					__( 'German (Switzerland)', 'uncr_translate' )    	=> 'de-CH',
+					__( 'Greek', 'uncr_translate' )         			=> 'el',
+					__( 'Gujarati', 'uncr_translate' )         			=> 'gu',
+					__( 'Hebrew', 'uncr_translate' )         			=> 'iw',
+					__( 'Hindi', 'uncr_translate' )         			=> 'hi',
+					__( 'Hungarain', 'uncr_translate' )         		=> 'hu',
+					__( 'Icelandic', 'uncr_translate' )         		=> 'is',
+					__( 'Indonesian', 'uncr_translate' )         		=> 'id',
+					__( 'Italian', 'uncr_translate' )         			=> 'it',
+					__( 'Japanese', 'uncr_translate' )         			=> 'ja',
+					__( 'Kannada', 'uncr_translate' )         			=> 'kn',
+					__( 'Korean', 'uncr_translate' )         			=> 'ko',
+					__( 'Laothian', 'uncr_translate' )         			=> 'lo',
+					__( 'Latvian', 'uncr_translate' )         			=> 'lv',
+					__( 'Lithuanian', 'uncr_translate' )         		=> 'lt',
+					__( 'Malay', 'uncr_translate' )         			=> 'ms',
+					__( 'Malayalam', 'uncr_translate' )         		=> 'ml',
+					__( 'Marathi', 'uncr_translate' )         			=> 'mr',
+					__( 'Mongolian', 'uncr_translate' )         		=> 'mn',
+					__( 'Norwegian', 'uncr_translate' )         		=> 'no',
+					__( 'Persian', 'uncr_translate' )         			=> 'fa',
+					__( 'Polish', 'uncr_translate' )         			=> 'pl',
+					__( 'Portuguese', 'uncr_translate' )         		=> 'pt',
+					__( 'Portuguese (Brazil)', 'uncr_translate' )     	=> 'pt-BR',
+					__( 'Portuguese (Portugal)', 'uncr_translate' )		=> 'pt-PT',
+					__( 'Romanian', 'uncr_translate' )					=> 'ro',
+					__( 'Russian', 'uncr_translate' )         			=> 'ru',
+					__( 'Serbian', 'uncr_translate' )         			=> 'sr',
+					__( 'Sinhalese', 'uncr_translate' )         		=> 'si',
+					__( 'Slovak', 'uncr_translate' )         			=> 'sk',
+					__( 'Slovenian', 'uncr_translate' )         		=> 'sl',
+					__( 'Spanish', 'uncr_translate' )         			=> 'es',
+					__( 'Spanish (Latin America)', 'uncr_translate' )	=> 'es-419',
+					__( 'Swahili', 'uncr_translate' )         			=> 'sw',
+					__( 'Swedish', 'uncr_translate' )         			=> 'sv',
+					__( 'Tamil', 'uncr_translate' )         			=> 'ta',
+					__( 'Telugu', 'uncr_translate' )         			=> 'te',
+					__( 'Thai', 'uncr_translate' )         				=> 'th',
+					__( 'Turkish', 'uncr_translate' )        			=> 'tr',
+					__( 'Ukrainian', 'uncr_translate' )         		=> 'uk',
+					__( 'Urdu', 'uncr_translate' )         				=> 'ur',
+					__( 'Vietnamese', 'uncr_translate' )         		=> 'vi',
+					__( 'Zulu', 'uncr_translate' )         				=> 'zu',
 
 				),
 			),
-
-
+			
 			'captcha-presence' => array(
 				'title'   => __( 'Enable reCaptcha on:', 'uncr_translate' ),
 				'type'    => 'checkbox',
 				'id'      => 'captcha_presence_checkbox',
 				'options' => array( //keys in the array should always be prefixed
-				                    'uncr_login_form'    => __( 'Login Screen', 'uncr-translate' ),
-				                    'uncr_register_form' => __( 'Register Screen', 'uncr-translate' ),
-				                    'uncr_comment_form'  => __( 'Comment Form', 'uncr-translate' ),
-				                    'uncr_lost_pwd'      => __( 'Recover Password Form', 'uncr-translate' ),
+	                    'uncr_login_form'    => __( 'Login Screen', 'uncr-translate' ),
+	                    'uncr_register_form' => __( 'Register Screen', 'uncr-translate' ),
+	                    'uncr_comment_form'  => __( 'Comment Form', 'uncr-translate' ),
+	                    'uncr_lost_pwd'      => __( 'Recover Password Form', 'uncr-translate' ),
 				),
+			),
+
+			'show-logged-users' => array(
+				'title'   => __( 'Enable reCaptcha for logged in users:', 'uncr_translate' ),
+				'type'    => 'multicheckbox',
+				'id'      => 'show_logged_users',
+				'options' => $this->uncr_get_wp_roles(),
 			),
 
 		);
@@ -236,6 +291,9 @@ class ncr_options_panel extends ncr_render_engine {
 			case 'radio':
 				echo $this->render_radio_field( $args );
 				break;
+			case 'multicheckbox':
+				echo $this->render_multicheckbox_field( $args );
+				break;
 			case 'checkbox':
 				echo $this->render_checkbox_field( $args );
 				break;
@@ -271,10 +329,14 @@ class ncr_options_panel extends ncr_render_engine {
 		foreach ( $input as $key => $value ) {
 
 			// Check to see if the current option has a value. If so, process it.
-			if ( isset( $input[ $key ] ) ) {
+			if ( isset( $input[ $key ] ) && !is_array( $input )  ) {
 
 				// Strip all HTML and PHP tags and properly handle quoted strings
 				$output[ $key ] = strip_tags( stripslashes( $input[ $key ] ) );
+
+			}else{
+
+				$output[ $key ] = $value;
 
 			} // end if
 
@@ -283,6 +345,21 @@ class ncr_options_panel extends ncr_render_engine {
 		// Return the array processing any additional functions filtered by this action
 		return apply_filters( 'uncr_plugin_validate_settings', $output, $input );
 	}
+
+	public function uncr_get_wp_roles() {
+		$editable_roles = array_reverse( get_editable_roles() );
+		
+		$formatted_roles = array();
+
+        foreach ( $editable_roles as $role => $details ) {
+                $name = translate_user_role($details['name'] );
+                $formatted_roles[$role] = $name;
+        }
+
+        return $formatted_roles;
+
+	}
+
 }
 
 // instantiate the class

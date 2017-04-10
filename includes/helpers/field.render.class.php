@@ -1,7 +1,7 @@
 <?php
 
 
-class ncr_render_engine {
+class NCR_render_engine {
 
 	protected $checkboxes;
 	protected $options;
@@ -84,16 +84,22 @@ class ncr_render_engine {
 	 *
 	 * @since   1.0.0
 	 */
-	public function render_checkbox_field( $args ) {
+	public function render_multicheckbox_field( $args ) {
 
 		$output = '<fieldset>';
 
 		$args['options'] = array_flip( $args['options'] );
 
+		$current_selection = $this->check_option_value( $args['id'] );
+
+		if ( !is_array( $current_selection ) ) {
+			$current_selection = array();
+		}
+
 		foreach ( $args['options'] as $value => $key ) {
 
 			$output .= '<div class="uncr-checkbox-wrapper">';
-			$output .= '<input id="' . esc_attr( $args['options'][ $value ] ) . '" type="checkbox" name="' . esc_attr( $this->settings_field ) . '[' . esc_attr( $args['options'][ $value ] ) . ']' . '" value="' . esc_attr( $key ) . '"' . checked( $this->check_option_value( $args['options'][ $value ] ), $key, false ) . '>';
+			$output .= '<input id="' . esc_attr( $args['options'][ $value ] ) . '" type="checkbox" name="' . esc_attr( $this->settings_field ) . '[' . esc_attr( $args['id'] ) . '][]' . '" value="' . esc_attr( $key ) . '"' . checked( in_array($key, $current_selection ), true, false ) . '>';
 			$output .= '<label for="' . esc_attr( $args['options'][ $value ] ) . '">' . esc_attr( $value ) . '</label>';
 			$output .= '</div>';
 		}
@@ -103,6 +109,36 @@ class ncr_render_engine {
 		return $output;
 
 	}
+
+	/**
+	 * Function that is responsible for generating checkbox fields
+	 *
+	 * @param $args
+	 *
+	 * @return string
+	 *
+	 * @since   1.0.0
+	 */
+	public function render_checkbox_field( $args ) {
+
+		$output = '<fieldset>';
+
+		$args['options'] = array_flip( $args['options'] );
+
+		foreach ( $args['options'] as $value => $key ) {
+
+			$output .= '<div class="uncr-checkbox-wrapper">';
+			$output .= '<input id="' . esc_attr( $args['options'][ $value ] ) . '" type="checkbox" name="' . esc_attr( $this->settings_field ) . '[' . esc_attr( $args['options'][ $value ] ) . ']' . '" value="' . esc_attr( $args['options'][ $value ] ) . '"' . checked( $this->check_option_value( $args['options'][ $value ] ), $key, false ) . '>';
+			$output .= '<label for="' . esc_attr( $args['options'][ $value ] ) . '">' . esc_attr( $value ) . '</label>';
+			$output .= '</div>';
+		}
+
+		$output .= '</fieldset>';
+
+		return $output;
+
+	}
+	
 
 	public function render_select_field( $args ) {
 

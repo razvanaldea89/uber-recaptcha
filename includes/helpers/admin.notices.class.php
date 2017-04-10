@@ -24,13 +24,13 @@ function construct_uncr_admin_notices(){
     if( $plugin_option['public_key_text'] === '' || $plugin_option['private_key_text'] === '' ) { // check if site / secret key have values in them
 
             // instantiate the class & load everything else
-            new ncr_admin_notices();
+            new NCR_admin_notices();
     }
 }
 
 add_action('init', 'construct_uncr_admin_notices');
 
-class ncr_admin_notices {
+class NCR_admin_notices {
 
     /**
      * Initialize the class and set its properties.

@@ -27,7 +27,7 @@ function construct_ncr_captcha_on_recover_password_form() {
 	if ( ! empty( $plugin_option['uncr_lost_pwd'] ) && $plugin_option['uncr_lost_pwd'] == 'uncr_lost_pwd' ) {
 
 		// instantiate the class & load everything else
-		return new ncr_captcha_recover_password_form();
+		return new NCR_captcha_recover_password_form();
 
 	}
 }
@@ -35,7 +35,7 @@ function construct_ncr_captcha_on_recover_password_form() {
 add_action( 'init', 'construct_ncr_captcha_on_recover_password_form' );
 
 
-class ncr_captcha_recover_password_form extends ncr_base_class {
+class NCR_captcha_recover_password_form extends NCR_base_class {
 
 
 	/**
@@ -44,6 +44,12 @@ class ncr_captcha_recover_password_form extends ncr_base_class {
 	public function __construct() {
 
 		parent::__construct();
+		
+		// add Google API JS script on the login section of the site
+		add_action( 'login_enqueue_scripts', array( $this, 'uncr_header_script' ), 10, 2 );
+
+		// add CSS to make sure the Google Captcha fits nicely
+		add_action( 'login_enqueue_scripts', array( $this, 'uncr_wp_css' ), 10, 2 );
 
 		add_action( 'lostpassword_form', array( $this, 'uncr_display_captcha' ) );
 		add_action( 'lostpassword_post', array( $this, 'uncr_validate_recover_pwd_form' ) );
