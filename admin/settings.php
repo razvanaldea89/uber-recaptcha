@@ -43,7 +43,7 @@ class NCR_options_panel extends NCR_render_engine {
 	public function back_end_styles() {
 
 		// load styles
-		wp_register_style( 'uncr-back-end-style', UNCR__PLUGIN_URL . '/css/back-end-styles.css', false, '1.0' );
+		wp_register_style( 'uncr-back-end-style', UNCR__PLUGIN_URL . '/assets/css/back-end-styles.css', false, '1.0' );
 		wp_enqueue_style( 'uncr-back-end-style' );
 
 	}
