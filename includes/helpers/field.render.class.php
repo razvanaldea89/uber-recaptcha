@@ -22,6 +22,13 @@ class NCR_render_engine {
 		$this->option_id = $option_id;
 		$this->options   = get_option( $this->settings_field );
 
+		if ( !isset($this->options['captcha_key_type']) ) {
+			$this->options['captcha_key_type'] = 'normal';
+		}
+		if ( !isset($this->options['disable_submit_button']) ) {
+			$this->options['disable_submit_button'] = 'no';
+		}
+
 		if ( ! empty( $this->options[ $this->option_id ] ) ) {
 			return $this->options[ $this->option_id ];
 		} else {

@@ -89,6 +89,13 @@ class NCR_base_class {
 		// saved plugin settings
 		$this->plugin_settings = get_option( 'uncr_settings' );
 
+		if ( !isset($this->plugin_settings['captcha_key_type']) ) {
+			$this->plugin_settings['captcha_key_type'] = 'normal';
+		}
+		if ( !isset($this->plugin_settings['disable_submit_button']) ) {
+			$this->plugin_settings['disable_submit_button'] = 'no';
+		}
+
 		// default plugin settings
 		self::$default_settings = array(
 			'public_key_text'         => '',
@@ -112,7 +119,7 @@ class NCR_base_class {
 		$this->recaptcha_public_key = !empty( $this->plugin_settings['public_key_text'] ) ? $this->plugin_settings['public_key_text'] : '';
 
 		// reCaptcha key type ( invisible/normal ); normal by default
-		$this->key_type = !empty( $this->plugin_settings['captcha_key_type'] ) ? $this->plugin_settings['captcha_key_type'] : '';
+		$this->key_type = !empty( $this->plugin_settings['captcha_key_type'] ) ? $this->plugin_settings['captcha_key_type'] : 'normal';
 
 		// reCaptcha theme (light/dark); light theme is set by default
 		$this->data_theme = !empty( $this->plugin_settings['captcha_theme_radio'] ) ? $this->plugin_settings['captcha_theme_radio'] : '';
@@ -122,6 +129,9 @@ class NCR_base_class {
 
 		// reCaptcha language
 		$this->captcha_language = !empty( $this->plugin_settings['captcha_language_select'] ) ? $this->plugin_settings['captcha_language_select'] : '';
+
+		// reCaptcha disable login button
+		$this->disable_submit_button = !empty( $this->plugin_settings['disable_submit_button'] ) ? $this->plugin_settings['disable_submit_button'] : 'no';
 
 	}
 
@@ -166,7 +176,7 @@ class NCR_base_class {
 				'key_type' 		=>  $this->key_type,
 				'theme'			=>  $this->data_theme,
 				'type'			=>  $this->data_type,
-				'submit_button'	=>  $this->plugin_settings['disable_submit_button'],
+				'submit_button'	=>  $this->disable_submit_button,
 			);
 			wp_localize_script( 'recaptchaGenerate', 'UNCR', $recapcha_settings );
 
