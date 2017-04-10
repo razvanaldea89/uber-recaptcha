@@ -40,6 +40,12 @@ class NCR_captcha_on_register extends NCR_base_class {
 	public function __construct() {
 
 		parent::__construct();
+		
+		// add Google API JS script on the login section of the site
+		add_action( 'login_enqueue_scripts', array( $this, 'uncr_header_script' ), 10, 2 );
+
+		// add CSS to make sure the Google Captcha fits nicely
+		add_action( 'login_enqueue_scripts', array( $this, 'uncr_wp_css' ), 10, 2 );
 
 		// add Google API JS script on the login section of the site
 		add_action( 'login_enqueue_scripts', array( $this, 'uncr_header_script' ), 10, 2 );
