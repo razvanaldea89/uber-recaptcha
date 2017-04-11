@@ -28,32 +28,32 @@ define( 'UNCR__PLUGIN_VERSION', '1.1.0' );
  *
  * Holds the base class for our plugin; CSS / JS
  */
-require_once plugin_dir_path( __FILE__ ) . 'includes/plugin-main-class.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/class-ncr-base.php';
 
 /**
  * The class responsible for adding the admin notices when the plugin is first activated.
  */
-require_once plugin_dir_path( __FILE__ ) . 'includes/helpers/admin.notices.class.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/helpers/class-ncr-admin-notices.php';
 
 /**
  * The class responsible for generating and adding the required API mark-up on the WordPress login form.
  */
-require_once plugin_dir_path( __FILE__ ) . 'includes/captcha-on-login.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/class-ncr-captcha-on-login.php';
 
 /**
  * The class responsible for generating and adding the required API mark-up on the WordPress register form.
  */
-require_once plugin_dir_path( __FILE__ ) . 'includes/captcha-on-register-form.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/class-ncr-captcha-on-register.php';
 
 /**
  * The class responsible for generating and adding the required API mark-up on the WordPress comment form.
  */
-require_once plugin_dir_path( __FILE__ ) . 'includes/captcha-on-comment-form.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/class-ncr-captcha-on-comment-form.php';
 
 /**
  * The class responsible for generating and adding the required API mark-up on the WordPress lost password form.
  */
-require_once plugin_dir_path( __FILE__ ) . 'includes/captcha-on-recover-password-form.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/clas-ncr-captcha-recover-password-form.php';
 
 
 /**
@@ -69,7 +69,7 @@ require_once plugin_dir_path( __FILE__ ) . 'includes/captcha-on-recover-password
  * 4.   select
  *
  */
-require_once plugin_dir_path( __FILE__ ) . 'includes/helpers/field.render.class.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/helpers/class-ncr-render-engine.php';
 
 /**
  * The class responsible for registering all the actions & generating the plugin admin panel
