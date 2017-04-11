@@ -53,7 +53,7 @@ require_once plugin_dir_path( __FILE__ ) . 'includes/class-ncr-captcha-on-commen
 /**
  * The class responsible for generating and adding the required API mark-up on the WordPress lost password form.
  */
-require_once plugin_dir_path( __FILE__ ) . 'includes/clas-ncr-captcha-recover-password-form.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/class-ncr-captcha-recover-password-form.php';
 
 
 /**
