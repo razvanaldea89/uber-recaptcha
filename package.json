@@ -1,0 +1,32 @@
+{
+	"name": "uber-nocaptcha-recaptcha",
+	"main": "Gruntfile.js",
+	"version": "2.1.0",
+	"author": "Macho Themes",
+	"license": "GPL v3",
+	"repository": "https://github.com/MachoThemes/uber-recaptcha",
+	"scripts": {
+		"build": "webpack",
+		"watch": "webpack --watch",
+		"production": "cross-env NODE_ENV=production webpack"
+	},
+	"devDependencies": {
+		"classnames": "^2.2.6",
+		"cross-env": "^3.1.4",
+		"css-loader": "^0.26.2",
+		"cssnano": "^3.10.0",
+		"grunt": "^1.0.3",
+		"grunt-checktextdomain": "^1.0.0",
+		"grunt-cli": "^1.3.2",
+		"grunt-contrib-clean": "^0.7.0",
+		"grunt-contrib-compress": "^1.4.3",
+		"grunt-contrib-copy": "^0.8.2",
+		"grunt-contrib-cssmin": "^0.14.0",
+		"grunt-contrib-uglify": "^4.0.1",
+		"grunt-wp-i18n": "^1.0.2",
+		"load-grunt-tasks": "^3.3.0"
+	},
+	"dependencies": {
+		"npm": "^6.0.1"
+	}
+}
