@@ -24,6 +24,10 @@ function construct_ncr_captcha_on_recover_password_form() {
 
 	$plugin_option = get_option( 'uncr_settings' );
 
+	if ( empty( $plugin_option['public_key_text'] ) || empty( $plugin_option['private_key_text'] ) ) {
+		return;
+	}
+
 	if ( ! empty( $plugin_option['uncr_lost_pwd'] ) && $plugin_option['uncr_lost_pwd'] == 'uncr_lost_pwd' ) {
 
 		// instantiate the class & load everything else

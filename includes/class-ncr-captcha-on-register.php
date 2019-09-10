@@ -23,6 +23,10 @@ function construct_ncr_captcha_on_register_form() {
 
 	$plugin_option = get_option( 'uncr_settings' );
 
+	if ( empty( $plugin_option['public_key_text'] ) || empty( $plugin_option['private_key_text'] ) ) {
+		return;
+	}
+
 	if ( ! empty( $plugin_option['uncr_register_form'] ) && $plugin_option['uncr_register_form'] == 'uncr_register_form' ) {
 		// instantiate the class & load everything else
 		return new NCR_captcha_on_register();

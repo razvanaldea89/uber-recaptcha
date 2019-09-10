@@ -28,6 +28,10 @@ function construct_ncr_captcha_on_comment_form() {
 
 	$plugin_option = get_option( 'uncr_settings' );
 
+	if ( empty( $plugin_option['public_key_text'] ) || empty( $plugin_option['private_key_text'] ) ) {
+		return;
+	}
+
 	if ( ! empty( $plugin_option['uncr_comment_form'] ) && $plugin_option['uncr_comment_form'] == 'uncr_comment_form' ) { // check if captcha form on comment form is enabled
 		if ( ! is_user_logged_in() ) { // check if user is logged in or not; we shouldn't be loading the class if the user is logged in (works on the principle that only users with privileges will be logged in, such as : admins)
 
@@ -141,6 +145,7 @@ class NCR_captcha_on_comment_form extends NCR_base_class {
 	 * @return  array   $commendata    Returns the commentdata as it was sent by the WordPress post
 	 */
 	public function uncr_validate_captcha_comment_field( $commentdata ) {
+
 
 		if ( ! isset( $_POST['g-recaptcha-response'] ) || empty( $_POST['g-recaptcha-response'] ) ) {
 			$this->error = new WP_Error( 'empty_captcha', __( 'CAPTCHA should not be empty', 'uncr_translate' ) );
