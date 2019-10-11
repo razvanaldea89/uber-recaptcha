@@ -30,8 +30,8 @@ class NCR_options_panel extends NCR_render_engine {
 	 * @since   1.0.0
 	 */
 	public function ncr_register_menu_page() {
-		add_menu_page( __( 'Uber reCaptcha', 'uncr-translate' ),       // page title
-			__( 'Uber reCaptcha', 'uncr-translate' ),       // menu title
+		add_menu_page( __( 'Uber reCaptcha', 'uncr_translate' ),       // page title
+			__( 'Uber reCaptcha', 'uncr_translate' ),       // menu title
 			'manage_options',                               // capability
 			'uber-ncr-settings',                            // menu-slug
 			array( $this, 'ncr_render_settings' ),          // callback function to render the options
@@ -74,8 +74,8 @@ class NCR_options_panel extends NCR_render_engine {
 				'type'    => 'radio',
 				'id'      => 'captcha_key_type',
 				'options' => array( //keys in the array should always be prefixed
-	                    'invisible' => __( 'Invisible reCAPTCHA', 'uncr-translate' ),
-	                    'normal' => __( 'reCAPTCHA V2', 'uncr-translate' ),
+	                    'invisible' => __( 'Invisible reCAPTCHA', 'uncr_translate' ),
+	                    'normal' => __( 'reCAPTCHA V2', 'uncr_translate' ),
 				),
 			),
 			'captcha-theme'    => array(
@@ -83,8 +83,8 @@ class NCR_options_panel extends NCR_render_engine {
 				'type'    => 'radio',
 				'id'      => 'captcha_theme_radio',
 				'options' => array(
-					'dark'  => __( 'Dark Theme', 'uncr-translate' ),
-					'light' => __( 'Light Theme', 'uncr-translate' ),
+					'dark'  => __( 'Dark Theme', 'uncr_translate' ),
+					'light' => __( 'Light Theme', 'uncr_translate' ),
 				),
 			),
 			'captcha-type'     => array(
@@ -92,8 +92,8 @@ class NCR_options_panel extends NCR_render_engine {
 				'type'    => 'radio',
 				'id'      => 'captcha_type_radio',
 				'options' => array( //keys in the array should always be prefixed
-				                    'audio' => __( 'Audio Captcha', 'uncr-translate' ),
-				                    'image' => __( 'Image Captcha', 'uncr-translate' ),
+				                    'audio' => __( 'Audio Captcha', 'uncr_translate' ),
+				                    'image' => __( 'Image Captcha', 'uncr_translate' ),
 				),
 			),
 			'disable-submit-button'     => array(
@@ -101,8 +101,8 @@ class NCR_options_panel extends NCR_render_engine {
 				'type'    => 'radio',
 				'id'      => 'disable_submit_button',
 				'options' => array( //keys in the array should always be prefixed
-	                    'yes' => __( 'Yes', 'uncr-translate' ),
-	                    'no' => __( 'No', 'uncr-translate' ),
+	                    'yes' => __( 'Yes', 'uncr_translate' ),
+	                    'no' => __( 'No', 'uncr_translate' ),
 				),
 			),
 			'captcha-language' => array(
@@ -190,10 +190,10 @@ class NCR_options_panel extends NCR_render_engine {
 				'type'    => 'checkbox',
 				'id'      => 'captcha_presence_checkbox',
 				'options' => array( //keys in the array should always be prefixed
-	                    'uncr_login_form'    => __( 'Login Screen', 'uncr-translate' ),
-	                    'uncr_register_form' => __( 'Register Screen', 'uncr-translate' ),
-	                    'uncr_comment_form'  => __( 'Comment Form', 'uncr-translate' ),
-	                    'uncr_lost_pwd'      => __( 'Recover Password Form', 'uncr-translate' ),
+	                    'uncr_login_form'    => __( 'Login Screen', 'uncr_translate' ),
+	                    'uncr_register_form' => __( 'Register Screen', 'uncr_translate' ),
+	                    'uncr_comment_form'  => __( 'Comment Form', 'uncr_translate' ),
+	                    'uncr_lost_pwd'      => __( 'Recover Password Form', 'uncr_translate' ),
 				),
 			),
 
@@ -217,7 +217,7 @@ class NCR_options_panel extends NCR_render_engine {
 
 		// Check that the user is allowed to update options
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( __( 'You do not have sufficient permissions to access this page.', 'uncr-translate' ) );
+			wp_die( __( 'You do not have sufficient permissions to access this page.', 'uncr_translate' ) );
 		}
 
 		// save options
@@ -240,11 +240,11 @@ class NCR_options_panel extends NCR_render_engine {
 		<!-- Create a header in the default WordPress 'wrap' container -->
 		<div class='wrap uncr-wrap'>
 
-			<h1><?php _e( 'Uber Google reCaptcha plugin', 'uncr-translate' ); ?></h1>
-			<p class="uncr-about-text"><?php echo __( 'Thank you for choosing Uber Google reCaptcha plugin. An easy to use security plugin that adds Googles\' reCaptcha to comment, register & lost password forms.', 'uncr-translate' ); ?>
+			<h1><?php _e( 'Uber Google reCaptcha plugin', 'uncr_translate' ); ?></h1>
+			<p class="uncr-about-text"><?php echo __( 'Thank you for choosing Uber Google reCaptcha plugin. An easy to use security plugin that adds Googles\' reCaptcha to comment, register & lost password forms.', 'uncr_translate' ); ?>
 
 			<div class='uncr-badge'>
-				<span><?php echo __( 'Version: ', 'uncr-translate' ) . UNCR__PLUGIN_VERSION; ?></span></div>
+				<span><?php echo __( 'Version: ', 'uncr_translate' ) . UNCR__PLUGIN_VERSION; ?></span></div>
 
 			<?php settings_errors(); ?>
 
@@ -255,7 +255,7 @@ class NCR_options_panel extends NCR_render_engine {
 				$options = get_option( 'uncr_settings' );
 
 				if ( empty( $options['public_key_text'] ) || empty( $options['private_key_text'] ) ) { ?>
-					<p class="get-recaptcha-key"><?php echo __( 'Get your reCaptcha site & secret keys by clicking the following link:  ', 'uncr-translate' ) . '<a href="https://www.google.com/recaptcha/intro/index.html" target="_blank" title="Google reCaptcha">' . __( 'Opens in a new tab', 'uncr-translate' ) . '</a>'; ?></p>
+					<p class="get-recaptcha-key"><?php echo __( 'Get your reCaptcha site & secret keys by clicking the following link:  ', 'uncr_translate' ) . '<a href="https://www.google.com/recaptcha/intro/index.html" target="_blank" title="Google reCaptcha">' . __( 'Opens in a new tab', 'uncr_translate' ) . '</a>'; ?></p>
 				<?php } ?>
 
 				<?php settings_fields( 'uncr_settings_group' );               //settings group, defined as first argument in register_setting ?>
