@@ -2,8 +2,8 @@
 Contributors: cristian.raiber, silkalns, machothemes
 Tags: comments, spam, recaptcha, login protection, comment protection, spam protection, nocaptcha, recaptcha, captcha
 Requires at least: 3.9
-Tested up to: 5.2
-Stable tag: 1.1.2
+Tested up to: 5.3
+Stable tag: 1.1.3
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -51,6 +51,10 @@ This section describes how to install the plugin and get it working.
 1. Back-end UI
 
 == Changelog ==
+
+= 1.1.3 =
+* Update texts to remove confusion about reCaptcha
+* Update translation file
 
 = 1.1.2 =
 * Fix translation issues
