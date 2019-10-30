@@ -70,12 +70,12 @@ class NCR_options_panel extends NCR_render_engine {
 				'id'    => 'private_key_text' // id is generated using name + '_' + type
 			),
 			'captcha-key-type' => array(
-				'title'   => __( 'Captcha key type', 'uncr_translate' ),
+				'title'   => __( 'Captcha key type<br />( reCaptcha V2 )', 'uncr_translate' ),
 				'type'    => 'radio',
 				'id'      => 'captcha_key_type',
 				'options' => array( //keys in the array should always be prefixed
-	                    'invisible' => __( 'Invisible reCAPTCHA', 'uncr_translate' ),
-	                    'normal' => __( 'reCAPTCHA V2', 'uncr_translate' ),
+	                    'invisible' => __( 'Invisible', 'uncr_translate' ),
+	                    'normal' => __( 'I\'m not a robot.', 'uncr_translate' ),
 				),
 			),
 			'captcha-theme'    => array(
