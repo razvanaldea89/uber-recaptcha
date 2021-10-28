@@ -68,11 +68,11 @@ class NCR_captcha_recover_password_form extends NCR_base_class {
 	public function uncr_validate_recover_pwd_form() {
 
 		if ( ! isset( $_POST['g-recaptcha-response'] ) || empty( $_POST['g-recaptcha-response'] ) ) {
-			wp_die( new WP_Error( 'empty_captcha', __( 'CAPTCHA should not be empty', 'uncr_translate' ) ) );
+			wp_die( new WP_Error( 'empty_captcha', esc_html__( 'CAPTCHA should not be empty', 'uncr_translate' ) ) );
 		}
 
 		if ( isset( $_POST['g-recaptcha-response'] ) && $this->uncr_validate_captcha() == 'false' ) {
-			wp_die( new WP_Error( 'invalid_captcha', __( 'CAPTCHA response was incorrect', 'uncr_translate' ) ) );
+			wp_die( new WP_Error( 'invalid_captcha', esc_html__( 'CAPTCHA response was incorrect', 'uncr_translate' ) ) );
 		}
 	}
 }

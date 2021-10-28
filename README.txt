@@ -52,6 +52,10 @@ This section describes how to install the plugin and get it working.
 
 == Changelog ==
 
+= 1.1.4 =
+* Update texts to remove confusion about reCaptcha
+* Update translation file
+
 = 1.1.3 =
 * Update texts to remove confusion about reCaptcha
 * Update translation file
