@@ -212,8 +212,7 @@ class NCR_base_class {
 	 * @since   1.0.0
 	 */
 	public function uncr_validate_captcha() {
-
-		$challenge = !empty( $_POST['g-recaptcha-response'] ) ? esc_attr( $_POST['g-recaptcha-response'] ) : '';
+		$challenge = !empty( $_POST['g-recaptcha-response'] ) ? esc_attr( sanitize_text_field( $_POST['g-recaptcha-response'] ) ) : '';
 
 		// get user IP address
 		$remote_ip = $_SERVER["REMOTE_ADDR"];

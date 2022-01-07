@@ -2,9 +2,9 @@
 /**
  * Plugin Name:       Uber reCaptcha
  * Description:       Adds Googles' reCaptcha to WordPress forms.
- * Version:           1.1.2
- * Author:            Macho Themes
- * Author URI:        https://www.machothemes.com/
+ * Version:           1.1.3
+ * Author:            WPChill
+ * Author URI:        https://wpchill.com
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       uncr_translate
@@ -21,7 +21,7 @@ if ( ! defined( 'WPINC' ) ) {
 // Constants
 define( 'UNCR__PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'UNCR__PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
-define( 'UNCR__PLUGIN_VERSION', '1.1.2' );
+define( 'UNCR__PLUGIN_VERSION', '1.1.3' );
 
 /**
  * The class responsible for orchestrating the core plugin.

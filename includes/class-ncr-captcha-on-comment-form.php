@@ -126,11 +126,11 @@ class NCR_captcha_on_comment_form extends NCR_base_class {
 			// error handling for CAPTCHA verifications
 			if ( array_key_exists( 'empty_captcha', $this->error->{'errors'} ) ) {
 
-				wp_die( $this->error->{'errors'}['empty_captcha'][0] ); // captcha field is empty (not checked)
+				wp_die( esc_html( $this->error->{'errors'}['empty_captcha'][0] ) ); // captcha field is empty (not checked)
 
 			} else if ( array_key_exists( 'invalid_captcha', $this->error->{'errors'} ) ) {
 
-				wp_die( $this->error->{'errors'}['invalid_captcha'][0] ); // captcha is invalid ( failed verification )
+				wp_die( esc_html( $this->error->{'errors'}['invalid_captcha'][0] ) ); // captcha is invalid ( failed verification )
 			}
 		}
 

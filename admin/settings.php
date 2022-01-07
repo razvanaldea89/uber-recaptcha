@@ -70,12 +70,12 @@ class NCR_options_panel extends NCR_render_engine {
 				'id'    => 'private_key_text' // id is generated using name + '_' + type
 			),
 			'captcha-key-type' => array(
-				'title'   => __( 'Captcha key type', 'uncr_translate' ),
+				'title'   => __( 'Captcha key type<br />( reCaptcha V2 )', 'uncr_translate' ),
 				'type'    => 'radio',
 				'id'      => 'captcha_key_type',
 				'options' => array( //keys in the array should always be prefixed
-	                    'invisible' => __( 'Invisible reCAPTCHA', 'uncr_translate' ),
-	                    'normal' => __( 'reCAPTCHA V2', 'uncr_translate' ),
+	                    'invisible' => __( 'Invisible', 'uncr_translate' ),
+	                    'normal' => __( 'I\'m not a robot.', 'uncr_translate' ),
 				),
 			),
 			'captcha-theme'    => array(
@@ -217,7 +217,7 @@ class NCR_options_panel extends NCR_render_engine {
 
 		// Check that the user is allowed to update options
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( __( 'You do not have sufficient permissions to access this page.', 'uncr_translate' ) );
+			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'uncr_translate' ) );
 		}
 
 		// save options
@@ -240,11 +240,11 @@ class NCR_options_panel extends NCR_render_engine {
 		<!-- Create a header in the default WordPress 'wrap' container -->
 		<div class='wrap uncr-wrap'>
 
-			<h1><?php _e( 'Uber Google reCaptcha plugin', 'uncr_translate' ); ?></h1>
-			<p class="uncr-about-text"><?php echo __( 'Thank you for choosing Uber Google reCaptcha plugin. An easy to use security plugin that adds Googles\' reCaptcha to comment, register & lost password forms.', 'uncr_translate' ); ?>
+			<h1><?php esc_html_e( 'Uber Google reCaptcha plugin', 'uncr_translate' ); ?></h1>
+			<p class="uncr-about-text"><?php echo esc_html__( 'Thank you for choosing Uber Google reCaptcha plugin. An easy to use security plugin that adds Googles\' reCaptcha to comment, register & lost password forms.', 'uncr_translate' ); ?>
 
 			<div class='uncr-badge'>
-				<span><?php echo __( 'Version: ', 'uncr_translate' ) . UNCR__PLUGIN_VERSION; ?></span></div>
+				<span><?php echo esc_html__( 'Version: ', 'uncr_translate' ) . UNCR__PLUGIN_VERSION; ?></span></div>
 
 			<?php settings_errors(); ?>
 
@@ -255,7 +255,7 @@ class NCR_options_panel extends NCR_render_engine {
 				$options = get_option( 'uncr_settings' );
 
 				if ( empty( $options['public_key_text'] ) || empty( $options['private_key_text'] ) ) { ?>
-					<p class="get-recaptcha-key"><?php echo __( 'Get your reCaptcha site & secret keys by clicking the following link:  ', 'uncr_translate' ) . '<a href="https://www.google.com/recaptcha/intro/index.html" target="_blank" title="Google reCaptcha">' . __( 'Opens in a new tab', 'uncr_translate' ) . '</a>'; ?></p>
+					<p class="get-recaptcha-key"><?php echo esc_html__( 'Get your reCaptcha site & secret keys by clicking the following link:  ', 'uncr_translate' ) . '<a href="https://www.google.com/recaptcha/intro/index.html" target="_blank" title="Google reCaptcha">' . esc_html__( 'Opens in a new tab', 'uncr_translate' ) . '</a>'; ?></p>
 				<?php } ?>
 
 				<?php settings_fields( 'uncr_settings_group' );               //settings group, defined as first argument in register_setting ?>
@@ -314,6 +314,14 @@ class NCR_options_panel extends NCR_render_engine {
 	public function ncr_save_settings() {
 
 		if ( isset( $_POST['uncr_settings'] ) && check_admin_referer( 'uncr_settings_nonce', '_wpnonce' ) ) {
+
+			foreach ( $_POST['uncr_settings'] as $field_id => $field ) {
+				if ( is_array( $field ) ) {
+					$_POST['uncr_settings'][ $field_id ]  = array_map( 'sanitize_text_field', $_POST['uncr_settings'][$field_id] );
+				} else {
+					$_POST['uncr_settings'][ $field_id ]  = sanitize_text_field( $_POST['uncr_settings'][$field_id] );
+				}
+			}
 
 			update_option( 'uncr_settings', $_POST['uncr_settings'] );
 
