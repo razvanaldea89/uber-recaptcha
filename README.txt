@@ -1,5 +1,5 @@
 === Plugin Name ===
-Contributors: cristian.raiber, silkalns, machothemes
+Contributors: cristian.raiber, silkalns, wpchill
 Tags: comments, spam, recaptcha, login protection, comment protection, spam protection, nocaptcha, recaptcha, captcha
 Requires at least: 3.9
 Tested up to: 5.8
@@ -52,13 +52,13 @@ This section describes how to install the plugin and get it working.
 
 == Changelog ==
 
-= 1.1.3 =
+= 1.1.3 - 07.01.2022 =
 * Update texts to remove confusion about reCaptcha
 * Update translation file
 * Update texts to remove confusion about reCaptcha
 * Update translation file
 
-= 1.1.2 =
+= 1.1.2  =
 * Fix translation issues
 * Update translation file
 
