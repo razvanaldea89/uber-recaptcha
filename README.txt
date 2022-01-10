@@ -52,7 +52,7 @@ This section describes how to install the plugin and get it working.
 
 == Changelog ==
 
-= 1.1.3 - 07.01.2022 =
+= 1.1.3 - 10.01.2022 =
 * Update texts to remove confusion about reCaptcha
 * Update translation file
 * Update texts to remove confusion about reCaptcha
