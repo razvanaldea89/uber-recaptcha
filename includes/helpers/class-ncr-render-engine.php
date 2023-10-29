@@ -99,7 +99,7 @@ class NCR_render_engine {
 	 */
 	public function render_multicheckbox_field( $args ) {
 
-		$output = '<fieldset>';
+		$output = '<fieldset class="unrc-checkbox-fieldset">';
 
 		$args['options'] = array_flip( $args['options'] );
 
@@ -112,7 +112,21 @@ class NCR_render_engine {
 		foreach ( $args['options'] as $value => $key ) {
 
 			$output .= '<div class="uncr-checkbox-wrapper">';
-			$output .= '<input id="' . esc_attr( $args['options'][ $value ] ) . '" type="checkbox" name="' . esc_attr( $this->settings_field ) . '[' . esc_attr( $args['id'] ) . '][]' . '" value="' . esc_attr( $key ) . '"' . checked( in_array( $key, $current_selection ), true, false ) . '>';
+			$output .= '<div class="raldea-toggle">
+				<input id="' . esc_attr( $args['options'][ $value ] ) . '"  class="raldea-toggle__input" type="checkbox" name="' . esc_attr( $this->settings_field ) . '[' . esc_attr( $args['id'] ) . '][]' . '" value="' . esc_attr( $key ) . '"' . checked( in_array( $key, $current_selection ), true, false ) . '>
+				<div class="raldea-toggle__items">
+					<span class="raldea-toggle__track"></span>
+					<span class="raldea-toggle__thumb"></span>
+					<svg class="raldea-toggle__off" width="6" height="6" aria-hidden="true" role="img"
+					     focusable="false" viewBox="0 0 6 6">
+						<path d="M3 1.5c.8 0 1.5.7 1.5 1.5S3.8 4.5 3 4.5 1.5 3.8 1.5 3 2.2 1.5 3 1.5M3 0C1.3 0 0 1.3 0 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z"></path>
+					</svg>
+					<svg class="raldea-toggle__on" width="2" height="6" aria-hidden="true" role="img"
+					     focusable="false" viewBox="0 0 2 6">
+						<path d="M0 0h2v6H0z"></path>
+					</svg>
+				</div>
+			</div>';
 			$output .= '<label for="' . esc_attr( $args['options'][ $value ] ) . '">' . esc_attr( $value ) . '</label>';
 			$output .= '</div>';
 		}
@@ -134,14 +148,28 @@ class NCR_render_engine {
 	 */
 	public function render_checkbox_field( $args ) {
 
-		$output = '<fieldset>';
+		$output = '<fieldset class="unrc-checkbox-fieldset">';
 
 		$args['options'] = array_flip( $args['options'] );
 
 		foreach ( $args['options'] as $value => $key ) {
 
 			$output .= '<div class="uncr-checkbox-wrapper">';
-			$output .= '<input id="' . esc_attr( $args['options'][ $value ] ) . '" type="checkbox" name="' . esc_attr( $this->settings_field ) . '[' . esc_attr( $args['options'][ $value ] ) . ']' . '" value="' . esc_attr( $args['options'][ $value ] ) . '"' . checked( $this->check_option_value( $args['options'][ $value ] ), $key, false ) . '>';
+			$output .= '<div class="raldea-toggle">
+				<input id="' . esc_attr( $args['options'][ $value ] ) . '" type="checkbox" class="raldea-toggle__input" name="' . esc_attr( $this->settings_field ) . '[' . esc_attr( $args['options'][ $value ] ) . ']' . '" value="' . esc_attr( $args['options'][ $value ] ) . '"' . checked( $this->check_option_value( $args['options'][ $value ] ), $key, false ) . '>
+				<div class="raldea-toggle__items">
+					<span class="raldea-toggle__track"></span>
+					<span class="raldea-toggle__thumb"></span>
+					<svg class="raldea-toggle__off" width="6" height="6" aria-hidden="true" role="img"
+					     focusable="false" viewBox="0 0 6 6">
+						<path d="M3 1.5c.8 0 1.5.7 1.5 1.5S3.8 4.5 3 4.5 1.5 3.8 1.5 3 2.2 1.5 3 1.5M3 0C1.3 0 0 1.3 0 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z"></path>
+					</svg>
+					<svg class="raldea-toggle__on" width="2" height="6" aria-hidden="true" role="img"
+					     focusable="false" viewBox="0 0 2 6">
+						<path d="M0 0h2v6H0z"></path>
+					</svg>
+				</div>
+			</div>';
 			$output .= '<label for="' . esc_attr( $args['options'][ $value ] ) . '">' . esc_attr( $value ) . '</label>';
 			$output .= '</div>';
 		}
