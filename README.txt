@@ -24,13 +24,6 @@ A few notes about the plugin:
 *   Adds reCaptcha protection to the WordPress comment form
 *   Adds reCaptcha protection to the WordPress recover password form
 
-
-**About us:**
-
-We are a young team of WordPress aficionados who love building WordPress plugins & <a href="https://www.machothemes.com/" target="_blank" title="Profesisonal WordPress themes">Profesisonal WordPress themes</a> over on our theme shop. We’re also blogging and wish to help our users find the best <a href="https://www.machothemes.com/blog/cheap-wordpress-hosting/" target="_blank" title="Cheap WordPress Hosting">Cheap WordPress hosting</a> & the best <a href="https://www.machothemes.com/blog/best-wordpress-themes-for-writers/" title="Best WordPress Themes for Writers" target="_blank">Best WordPress Themes for Writers</a>.
-
-
-
 == Installation ==
 
 This section describes how to install the plugin and get it working.
