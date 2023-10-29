@@ -1,5 +1,5 @@
 === Plugin Name ===
-Contributors: cristian.raiber, silkalns, wpchill
+Contributors: cristian.raiber, silkalns, wpchill, raldea89
 Tags: comments, spam, recaptcha, login protection, comment protection, spam protection, nocaptcha, recaptcha, captcha
 Requires at least: 3.9
 Tested up to: 6.3
