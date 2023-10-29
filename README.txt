@@ -52,6 +52,10 @@ This section describes how to install the plugin and get it working.
 
 == Changelog ==
 
+= 1.1.4 - 29.10.2023 =
+* Fixed: PHP 8.x warnings ( [#15](https://github.com/razvanaldea89/uber-recaptcha/issues/15) )
+* Changed: Modernized checkbox inputs ( [#17](https://github.com/razvanaldea89/uber-recaptcha/issues/17) )
+
 = 1.1.3 - 10.01.2022 =
 * Update texts to remove confusion about reCaptcha
 * Update translation file
