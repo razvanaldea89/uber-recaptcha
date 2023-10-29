@@ -2,8 +2,8 @@
 Contributors: cristian.raiber, silkalns, wpchill
 Tags: comments, spam, recaptcha, login protection, comment protection, spam protection, nocaptcha, recaptcha, captcha
 Requires at least: 3.9
-Tested up to: 5.8
-Stable tag: 1.1.3
+Tested up to: 6.3
+Stable tag: 1.1.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -23,13 +23,6 @@ A few notes about the plugin:
 *   Adds reCaptcha protection to the WordPress register form
 *   Adds reCaptcha protection to the WordPress comment form
 *   Adds reCaptcha protection to the WordPress recover password form
-
-
-**About us:**
-
-We are a young team of WordPress aficionados who love building WordPress plugins & <a href="https://www.machothemes.com/" target="_blank" title="Profesisonal WordPress themes">Profesisonal WordPress themes</a> over on our theme shop. We’re also blogging and wish to help our users find the best <a href="https://www.machothemes.com/blog/cheap-wordpress-hosting/" target="_blank" title="Cheap WordPress Hosting">Cheap WordPress hosting</a> & the best <a href="https://www.machothemes.com/blog/best-wordpress-themes-for-writers/" title="Best WordPress Themes for Writers" target="_blank">Best WordPress Themes for Writers</a>.
-
-
 
 == Installation ==
 
@@ -51,6 +44,10 @@ This section describes how to install the plugin and get it working.
 1. Back-end UI
 
 == Changelog ==
+
+= 1.1.4 - 29.10.2023 =
+* Fixed: PHP 8.x warnings ( [#15](https://github.com/razvanaldea89/uber-recaptcha/issues/15) )
+* Changed: Modernized checkbox inputs ( [#17](https://github.com/razvanaldea89/uber-recaptcha/issues/17) )
 
 = 1.1.3 - 10.01.2022 =
 * Update texts to remove confusion about reCaptcha
