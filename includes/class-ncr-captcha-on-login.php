@@ -64,8 +64,8 @@ class NCR_captcha_on_login extends NCR_base_class {
 	/**
 	 * Handles the display of the reCaptcha form on the WordPress login form
 	 *
-	 * @param   string $user
-	 * @param   string $password
+	 * @param string $user
+	 * @param string $password
 	 *
 	 * @return  object  WP_Error
 	 */

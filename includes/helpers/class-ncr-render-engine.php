@@ -1,11 +1,18 @@
 <?php
 
-
 class NCR_render_engine {
 
 	protected $checkboxes;
 	protected $options;
 	protected $settings_field = 'uncr_settings';
+	/**
+	 * The option ID that is being checked.
+	 *
+	 * @since   1.0.0
+	 * @access  protected
+	 * @var     string $option_id The option ID that is being checked.
+	 */
+	protected $option_id;
 
 
 	/**
@@ -22,10 +29,10 @@ class NCR_render_engine {
 		$this->option_id = $option_id;
 		$this->options   = get_option( $this->settings_field );
 
-		if ( !isset($this->options['captcha_key_type']) ) {
+		if ( ! isset( $this->options['captcha_key_type'] ) ) {
 			$this->options['captcha_key_type'] = 'normal';
 		}
-		if ( !isset($this->options['disable_submit_button']) ) {
+		if ( ! isset( $this->options['disable_submit_button'] ) ) {
 			$this->options['disable_submit_button'] = 'no';
 		}
 
@@ -34,7 +41,6 @@ class NCR_render_engine {
 		} else {
 			return;
 		}
-
 	}
 
 	/**
@@ -99,14 +105,14 @@ class NCR_render_engine {
 
 		$current_selection = $this->check_option_value( $args['id'] );
 
-		if ( !is_array( $current_selection ) ) {
+		if ( ! is_array( $current_selection ) ) {
 			$current_selection = array();
 		}
 
 		foreach ( $args['options'] as $value => $key ) {
 
 			$output .= '<div class="uncr-checkbox-wrapper">';
-			$output .= '<input id="' . esc_attr( $args['options'][ $value ] ) . '" type="checkbox" name="' . esc_attr( $this->settings_field ) . '[' . esc_attr( $args['id'] ) . '][]' . '" value="' . esc_attr( $key ) . '"' . checked( in_array($key, $current_selection ), true, false ) . '>';
+			$output .= '<input id="' . esc_attr( $args['options'][ $value ] ) . '" type="checkbox" name="' . esc_attr( $this->settings_field ) . '[' . esc_attr( $args['id'] ) . '][]' . '" value="' . esc_attr( $key ) . '"' . checked( in_array( $key, $current_selection ), true, false ) . '>';
 			$output .= '<label for="' . esc_attr( $args['options'][ $value ] ) . '">' . esc_attr( $value ) . '</label>';
 			$output .= '</div>';
 		}
@@ -145,7 +151,7 @@ class NCR_render_engine {
 		return $output;
 
 	}
-	
+
 
 	public function render_select_field( $args ) {
 
