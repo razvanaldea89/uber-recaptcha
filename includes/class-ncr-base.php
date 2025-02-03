@@ -98,6 +98,15 @@ class NCR_base_class {
 	protected $disable_submit_button = 'no';
 
 	/**
+	 * The reCaptcha model (v2/v3); v2 by default
+	 *
+	 * @since    1.1.4
+	 * @access   protected
+	 * @var      string $recaptcha_model The reCaptcha model (v2/v3); v2 by default
+	 */
+	protected $captcha_model = 'v2';
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @param array  $plugin_settings       Holds the plugin settings; extracted from the database..
@@ -107,7 +116,6 @@ class NCR_base_class {
 	 * @param string $data_type             reCaptcha data type (audio/image)
 	 *
 	 * @since      1.0.0
-	 *
 	 */
 	public function __construct() {
 
@@ -127,6 +135,7 @@ class NCR_base_class {
 		self::$default_settings = array(
 			'public_key_text'         => '',
 			'private_key_text'        => '',
+			'captcha_model_type'      => 'v2',
 			'captcha_key_type'        => 'normal',
 			'captcha_theme_radio'     => 'light',
 			'captcha_type_radio'      => 'image',
@@ -136,7 +145,7 @@ class NCR_base_class {
 			'uncr_comment_form'       => '',
 			'uncr_lost_pwd'           => '',
 			'show_logged_users'       => array(),
-			'disable_submit_button'   => 'no'
+			'disable_submit_button'   => 'no',
 		);
 
 		// reCaptcha secret key
@@ -144,6 +153,9 @@ class NCR_base_class {
 
 		// reCaptcha site key
 		$this->recaptcha_public_key = ! empty( $this->plugin_settings['public_key_text'] ) ? $this->plugin_settings['public_key_text'] : '';
+
+		// The reCaptcha model (v2/v3); v2 by default
+		$this->captcha_model = ! empty( $this->plugin_settings['captcha_model_type'] ) ? $this->plugin_settings['captcha_model_type'] : 'v2';
 
 		// reCaptcha key type ( invisible/normal ); normal by default
 		$this->key_type = ! empty( $this->plugin_settings['captcha_key_type'] ) ? $this->plugin_settings['captcha_key_type'] : 'normal';
@@ -159,7 +171,6 @@ class NCR_base_class {
 
 		// reCaptcha disable login button
 		$this->disable_submit_button = ! empty( $this->plugin_settings['disable_submit_button'] ) ? $this->plugin_settings['disable_submit_button'] : 'no';
-
 	}
 
 	/**
@@ -181,24 +192,35 @@ class NCR_base_class {
 	public function uncr_header_script() {
 
 		if ( ! wp_script_is( 'recaptcha', 'register' ) ) { // if a script with the same handle hasn't been already registered, register ours
-
-			if ( ! empty( $this->captcha_language ) ) {
-				wp_register_script( 'recaptchaAPI', '//www.google.com/recaptcha/api.js?onload=renderUNCRReCaptcha&render=explicit&hl=' . $this->captcha_language, null, '2.1', false );
-				wp_register_script( 'recaptchaGenerate', plugins_url( 'assets/js/recaptcha.js', dirname( __FILE__ ) ), array(
-					'recaptchaAPI',
-					'jquery',
-				),                  '1.0', false );
+			if ( 'v2' === $this->captcha_model ) {
+				$url = '//www.google.com/recaptcha/api.js?onload=renderUNCRReCaptcha&render=explicit';
+				if ( ! empty( $this->captcha_language ) ) {
+					$url .= '&hl=' . $this->captcha_language;
+				}
+				wp_register_script( 'recaptchaAPI', $url, null, '2.1', false );
 			} else {
-				wp_register_script( 'recaptchaAPI', '//www.google.com/recaptcha/api.js?onload=renderUNCRReCaptcha&render=explicit', null, '2.1', false );
-				wp_register_script( 'recaptchaGenerate', plugins_url( 'assets/js/recaptcha.js', dirname( __FILE__ ) ), array(
+				$url = 'https://www.google.com/recaptcha/api.js?render=reCAPTCHA_' . $this->recaptcha_public_key;
+				if ( ! empty( $this->captcha_language ) ) {
+					$url .= '&hl=' . $this->captcha_language;
+				}
+				wp_register_script( 'recaptchaAPI', $url, null, null, false );
+			}
+			wp_register_script(
+				'recaptchaGenerate',
+				plugins_url( 'assets/js/recaptcha.js', __DIR__ ),
+				array(
 					'recaptchaAPI',
 					'jquery',
-				),                  '1.0', false );
-			}
+				),
+				'2.1.0',
+				false
+			);
+
 			wp_enqueue_script( 'recaptchaAPI' );
 			wp_enqueue_script( 'recaptchaGenerate' );
 
 			$recapcha_settings = array(
+				'model'         => $this->captcha_model,
 				'site_key'      => $this->recaptcha_public_key,
 				'key_type'      => $this->key_type,
 				'theme'         => $this->data_theme,
@@ -206,12 +228,9 @@ class NCR_base_class {
 				'submit_button' => $this->disable_submit_button,
 			);
 			wp_localize_script( 'recaptchaGenerate', 'UNCR', $recapcha_settings );
-
 		} else {
-			return new WP_Error( 'script_handle_exists', __( 'A script with the same has already been registered. Plugin conflict', 'uncr_translate' ) );
+			return new WP_Error( 'script_handle_exists', __( 'A script with the same handle has already been registered. Plugin conflict', 'uncr_translate' ) );
 		}
-
-
 	}
 
 	/**
@@ -220,7 +239,7 @@ class NCR_base_class {
 	 * @since    1.0.0
 	 */
 	public function uncr_wp_css() {
-		wp_register_style( 'captcha-style', plugins_url( 'assets/css/style.css', dirname( __FILE__ ) ) );
+		wp_register_style( 'captcha-style', plugins_url( 'assets/css/style.css', __DIR__ ) );
 		wp_enqueue_style( 'captcha-style' );
 	}
 
@@ -242,7 +261,7 @@ class NCR_base_class {
 		$challenge = ! empty( $_POST['g-recaptcha-response'] ) ? esc_attr( sanitize_text_field( $_POST['g-recaptcha-response'] ) ) : '';
 
 		// get user IP address
-		$remote_ip = $_SERVER["REMOTE_ADDR"];
+		$remote_ip = $_SERVER['REMOTE_ADDR'];
 
 		// format the post_body to make a $_POST request with
 		$post_body = array(
@@ -260,7 +279,6 @@ class NCR_base_class {
 		$response_body = wp_remote_retrieve_body( $request );
 
 		return $response_body;
-
 	}
 
 	/**
@@ -283,10 +301,8 @@ class NCR_base_class {
 	 */
 	static function uncr_plugin_uninstall() {
 
-
 		if ( ! current_user_can( 'activate_plugins' ) ) {
 			return;
 		}
-
 	}
 }

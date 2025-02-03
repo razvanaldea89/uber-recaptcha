@@ -22,7 +22,6 @@
  * in the back-end
  *
  * @since   1.0.0
- *
  */
 function construct_ncr_captcha_on_comment_form() {
 
@@ -37,15 +36,13 @@ function construct_ncr_captcha_on_comment_form() {
 
 			// instantiate the class & load everything else
 			return new NCR_captcha_on_comment_form();
-		} else if ( isset( $plugin_option['show_logged_users'] ) && !empty( $plugin_option['show_logged_users'] ) && is_user_logged_in() ) {
-			
-			$current_user = wp_get_current_user();
+		} elseif ( isset( $plugin_option['show_logged_users'] ) && ! empty( $plugin_option['show_logged_users'] ) && is_user_logged_in() ) {
+			$current_user       = wp_get_current_user();
 			$current_user_roles = $current_user->roles;
-			if ( !empty( array_intersect( $plugin_option['show_logged_users'], $current_user_roles ) ) ) {
+			if ( ! empty( array_intersect( $plugin_option['show_logged_users'], $current_user_roles ) ) ) {
 				return new NCR_captcha_on_comment_form();
 			}
-
-		} 
+		}
 	}
 }
 
@@ -71,20 +68,17 @@ class NCR_captcha_on_comment_form extends NCR_base_class {
 
 		parent::__construct();
 
-		// add captcha header script to WordPress header
+		// add captcha header script to WordPress header.
 		add_action( 'wp_head', array( $this, 'uncr_header_script' ) );
 		add_action( 'wp_head', array( $this, 'uncr_wp_css' ) );
 
-
-		// adds captcha above the submit button
+		// adds captcha above the submit button.
 		add_filter( 'comment_form_submit_field', array( $this, 'uncr_display_captcha_comment_form' ), 10, 2 );
 
-		
-
-		// authenticate the captcha answer
+		// authenticate the captcha answer.
 		add_filter( 'preprocess_comment', array( $this, 'uncr_validate_captcha_comment_field' ), 10, 2 );
 
-		// redirect location for comment
+		// redirect location for comment.
 		add_filter( 'comment_post_redirect', array( $this, 'uncr_redirect_fail_captcha_comment' ), 10, 2 );
 	}
 
@@ -100,8 +94,7 @@ class NCR_captcha_on_comment_form extends NCR_base_class {
 	 */
 	public function uncr_display_captcha_comment_form( $submit_field ) {
 
-		return '<div class="uncr-g-recaptcha"></div>'.$submit_field;
-
+		return '<div class="uncr-g-recaptcha"></div>' . $submit_field;
 	}
 
 	/**
@@ -114,23 +107,22 @@ class NCR_captcha_on_comment_form extends NCR_base_class {
 	 * @return  string  $location
 	 *
 	 * @since   1.0.0
-	 *
 	 */
 	public function uncr_redirect_fail_captcha_comment( $location, $comment ) {
 
 		if ( ! empty( $this->error ) ) {
 
-			// delete the failed captcha comment
+			// delete the failed captcha comment.
 			wp_delete_comment( absint( $comment->comment_ID ) );
 
-			// error handling for CAPTCHA verifications
+			// error handling for CAPTCHA verifications.
 			if ( array_key_exists( 'empty_captcha', $this->error->{'errors'} ) ) {
 
-				wp_die( esc_html( $this->error->{'errors'}['empty_captcha'][0] ) ); // captcha field is empty (not checked)
+				wp_die( esc_html( $this->error->{'errors'}['empty_captcha'][0] ) ); // captcha field is empty (not checked).
 
-			} else if ( array_key_exists( 'invalid_captcha', $this->error->{'errors'} ) ) {
+			} elseif ( array_key_exists( 'invalid_captcha', $this->error->{'errors'} ) ) {
 
-				wp_die( esc_html( $this->error->{'errors'}['invalid_captcha'][0] ) ); // captcha is invalid ( failed verification )
+				wp_die( esc_html( $this->error->{'errors'}['invalid_captcha'][0] ) ); // captcha is invalid ( failed verification ).
 			}
 		}
 
@@ -146,7 +138,6 @@ class NCR_captcha_on_comment_form extends NCR_base_class {
 	 */
 	public function uncr_validate_captcha_comment_field( $commentdata ) {
 
-
 		if ( ! isset( $_POST['g-recaptcha-response'] ) || empty( $_POST['g-recaptcha-response'] ) ) {
 			$this->error = new WP_Error( 'empty_captcha', __( 'CAPTCHA should not be empty', 'uncr_translate' ) );
 		}
@@ -156,6 +147,5 @@ class NCR_captcha_on_comment_form extends NCR_base_class {
 		}
 
 		return $commentdata;
-
 	}
 }

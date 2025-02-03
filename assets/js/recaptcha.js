@@ -16,29 +16,53 @@ var renderUNCRReCaptcha = function() {
         holder.innerHTML = '';
             
         (function(frm){
-            
-            if ( UNCR.key_type == 'invisible' ) {
+            if('v2' === UNCR.model){
 
-                ReCaptchaData.size = 'invisible';
-                ReCaptchaData.badge = 'inline';
-                ReCaptchaData.callback = function (recaptchaToken) { HTMLFormElement.prototype.submit.call(frm); };
-                ReCaptchaData["expired-callback"] = function(){grecaptcha.reset(holderId);};
+                if ( UNCR.key_type == 'invisible' ) {
 
-            }else if ( UNCR.submit_button == 'yes' ) {
-                var submit_button = form.querySelector('input[type="submit"]');
-                if ( submit_button ) {
-                    submit_button.setAttribute('disabled','disabled');
-                    ReCaptchaData.callback = function (recaptchaToken) { submit_button.removeAttribute('disabled'); };
+                    ReCaptchaData.size = 'invisible';
+                    ReCaptchaData.badge = 'inline';
+                    ReCaptchaData.callback = function (recaptchaToken) { HTMLFormElement.prototype.submit.call(frm); };
+                    ReCaptchaData["expired-callback"] = function(){grecaptcha.reset(holderId);};
+
+                }else if ( UNCR.submit_button == 'yes' ) {
+                    var submit_button = form.querySelector('input[type="submit"]');
+                    if ( submit_button ) {
+                        submit_button.setAttribute('disabled','disabled');
+                        ReCaptchaData.callback = function (recaptchaToken) { submit_button.removeAttribute('disabled'); };
+                    }
+                }
+
+                var holderId = grecaptcha.render(holder, ReCaptchaData );
+
+                if ( UNCR.key_type == 'invisible' ) {
+                    frm.onsubmit = function (evt){evt.preventDefault();grecaptcha.execute(holderId);};
                 }
             }
-
-            var holderId = grecaptcha.render(holder, ReCaptchaData );
-
-             if ( UNCR.key_type == 'invisible' ) {
-                frm.onsubmit = function (evt){evt.preventDefault();grecaptcha.execute(holderId);};
-            }
-
         })(form);
     }
 
 };
+if ( 'v3' === UNCR.model) {
+    jQuery(document).ready(function($) {
+
+        for (var i = 0; i < document.forms.length; ++i) {
+            var form = document.forms[i];
+            var holder = form.querySelector('.uncr-g-recaptcha');
+
+            if (null === holder) continue;
+            holder.innerHTML = '';
+                
+            (function(frm){
+                frm.onsubmit = function (evt){
+                    evt.preventDefault();
+                    grecaptcha.execute('reCAPTCHA_' + UNCR.site_key, {action: 'homepage'}).then(function(token) {
+                        var recaptchaResponse = document.getElementById('recaptchaResponse');
+                        console.log(token);
+                        recaptchaResponse.value = token;
+                    });
+                }
+            })(form);
+        }
+    });
+}

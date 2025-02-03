@@ -70,6 +70,7 @@ class NCR_captcha_on_login extends NCR_base_class {
 	 * @return  object  WP_Error
 	 */
 	public function uncr_captcha_on_login( $user, $password ) {
+		var_dump($_POST);
 
 		if ( ! isset( $_POST['g-recaptcha-response'] ) || empty( $_POST['g-recaptcha-response'] ) ) {
 			return new WP_Error( 'empty_captcha', __( 'CAPTCHA should not be empty', 'uncr_translate' ) );
